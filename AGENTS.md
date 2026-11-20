@@ -31,6 +31,8 @@ use the editor.
 
 ## Project rules
 
-- Product catalog lives in `src/data/products.ts` as static data; pages read from it so the site works without a backend.
-- Cart state lives in `src/lib/cart.tsx` (React context persisted to localStorage, read only in effects to avoid hydration mismatches); shipping math stays in `shippingFor` so it is testable.
-- Shared shell (header, nav, footer) is rendered once in `src/routes/__root.tsx`; reusable store pieces live in `src/components/erre/`.
+- This is now a plain PHP storefront (no Composer, no build step). Pages are `.php` files in the project root.
+- Product catalog lives in `includes/products.php` as static data; pages read from it so the site works without a database.
+- Cart state lives in `includes/cart.php` using `$_SESSION['cart']`; shipping math stays in `shipping_for()` so it is easy to test and replace.
+- Shared shell (header, nav, footer) lives in `includes/header.php` and `includes/footer.php`; reusable pieces live in `includes/ui.php`.
+- Styling is plain CSS in `assets/css/styles.css`; minimal interactions are in `assets/js/app.js`.

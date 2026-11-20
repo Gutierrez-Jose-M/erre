@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Credenciales locales de base de datos (no subir)
+config/config.php
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

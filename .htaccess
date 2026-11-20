@@ -1,0 +1,25 @@
+# Configuración para Apache (XAMPP / InfinityFree)
+DirectoryIndex index.php
+Options -Indexes
+AddDefaultCharset UTF-8
+
+# Los archivos auxiliares solo se usan desde include(), nunca se visitan directamente.
+<IfModule mod_authz_core.c>
+    <FilesMatch "^(bootstrap|helpers|icons|products|cart|ui|catalog_view|header|footer)\.php$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    <FilesMatch "^(bootstrap|helpers|icons|products|cart|ui|catalog_view|header|footer)\.php$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+# Evita exponer el repositorio si se sube por WinSCP.
+<IfModule mod_authz_core.c>
+    <FilesMatch "^\.">
+        Require all denied
+    </FilesMatch>
+</IfModule>
