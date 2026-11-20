@@ -1,81 +1,28 @@
-# ERRE Supermercado — versión PHP + MySQL
+# Proyecto web — Trabajos Prácticos 6 a 10
 
-Tienda online de comestibles y limpieza migrada de React/TanStack a **PHP puro con MySQL (PDO)**. Sin Composer ni frameworks en el sitio principal: funciona en **XAMPP** y en hosting compartido como **InfinityFree**, subiendo por **WinSCP**.
+Proyecto en PHP y MySQL que integra los contenidos de los trabajos prácticos de Programación Web.
 
-Los trabajos prácticos 6, 7, 8, 9 y 10 están integrados en el proyecto. Guía rápida: [`BASE_DE_DATOS.md`](BASE_DE_DATOS.md).
+## Contenido por TP
 
-## Estructura principal
+- **TP6 — Diseño y esquema relacional (MySQL)**  
+  `schema.sql` (creación de la base de datos y tablas con PK, FK, índices y campos de auditoría), `consultas.sql` (datos iniciales y consultas CRUD de prueba) y `NORMALIZACION.md` (proceso de normalización).
 
-```
-index.php / comestibles.php / limpieza.php / producto.php
-buscar.php / carrito.php / checkout.php / contacto.php
-login.php / registro.php / logout.php / perfil.php
-admin_panel.php / admin.php / admin_crear.php / admin_editar.php / admin_eliminar.php
-api/buscar_productos.php          Endpoint JSON (Fetch API)
-config/conexion.php               Conexión PDO con try-catch
-config/config.example.php         Copiar a config/config.php
-schema.sql                        DDL: 9 tablas, PK/FK/índices (TP6)
-consultas.sql                     Datos iniciales + CRUD de prueba (TP6)
-NORMALIZACION.md                  1FN/2FN/3FN aplicadas (TP6)
-BASE_DE_DATOS.md                  Paso a paso para crear la BD
-app/Models/                       Consultas SQL (TP10-A)
-app/Controllers/                  Lógica de request (TP10-A)
-app/Views/                        HTML del catálogo (TP10-A)
-framework-module/                 Módulo CodeIgniter 4 (TP10-B)
-includes/                         Bootstrap, plantillas y funciones compartidas
-assets/css/styles.css             Diseño del proyecto original
-assets/js/app.js                  Búsqueda asíncrona, menú, tabs y controles
-```
+- **TP7 — Conexión PHP-MySQL y CRUD seguro**  
+  Conexión con PDO y consultas preparadas en `config/conexion.php`, y módulo CRUD integrado al proyecto (`admin.php`, `admin_crear.php`, `admin_editar.php`, `admin_eliminar.php`, `app/Models/ProductModel.php`).
 
-## Instalación local (XAMPP)
+- **TP8 — Sesiones y autenticación**  
+  Registro, inicio y cierre de sesión con `$_SESSION`, hash de contraseñas (`password_hash`/`password_verify`), protección de rutas y control de acceso por rol (`login.php`, `registro.php`, `logout.php`, `includes/auth_guard.php`).
 
-1. Iniciá Apache y MySQL.
-2. Copiá la carpeta a `C:\xampp\htdocs\erre`.
-3. En phpMyAdmin ejecutá `schema.sql` y después `consultas.sql` (ver [`BASE_DE_DATOS.md`](BASE_DE_DATOS.md)).
-4. Copiá `config/config.example.php` a `config/config.php`. En XAMPP los valores por defecto funcionan.
-5. Entrá a `http://localhost/erre`.
+- **TP9 — Comunicación asincrónica (AJAX & JSON)**  
+  Endpoint PHP que responde en JSON (`api/buscar_productos.php`) y consumo desde el frontend con Fetch API para actualizar el DOM sin recargar la página (`assets/js/app.js`).
 
-## Subir a InfinityFree con WinSCP
+- **TP10 — MVC y framework**  
+  Refactorización a Modelo-Vista-Controlador en `app/Models`, `app/Controllers` y `app/Views`, y módulo independiente implementado con un framework PHP en `framework-module/`.
 
-1. Creá la base MySQL y el usuario en el panel; anotá host, BD, usuario y contraseña.
-2. Importá `schema.sql` y `consultas.sql` desde phpMyAdmin.
-3. Editá `config/config.php` con esos datos.
-4. En WinSCP: sesión **SFTP** con los datos del hosting → subí **todo el contenido** de esta carpeta a `htdocs/`.
-5. Probá `http://tu-dominio.infinityfreeapp.com`. Permisos: archivos `644`, carpetas `755`.
+## Puesta en marcha básica
 
-## Usuarios de prueba
+1. Crear la base de datos e importar `schema.sql` y luego `consultas.sql` en MySQL.
+2. Copiar `config/config.example.php` como `config/config.php` y completar los datos de conexión.
+3. Ejecutar el proyecto en un servidor con PHP y MySQL (por ejemplo, Apache/XAMPP).
 
-| Email | Contraseña | Rol |
-| --- | --- | --- |
-| `admin@erre.com.ar` | `admin123` | admin |
-| `cliente@erre.com.ar` | `cliente123` | usuario |
-
-## Cómo se comportan los datos
-
-- **Catálogo:** se lee de MySQL (`productos` + `marcas` + `categorias`). Si no hay BD, se usa el array estático de `includes/products.php` para que el sitio no se rompa.
-- **Carrito:** se guarda en `$_SESSION['cart']` (no requiere tabla). El cálculo de envío sigue en `shipping_for()`.
-- **Pedidos:** se guardan en `pedidos` y `detalle_pedidos` con transacción y consultas preparadas. Si no hay BD, quedan solo en sesión.
-- **Login/registro:** reales, contra `usuarios`. Contraseñas con `password_hash()` / `password_verify()`, `session_regenerate_id(true)`, guardián de rutas y control por rol.
-- **Contacto:** guarda cada mensaje en `consultas` (además del avisos en pantalla).
-- **Búsqueda:** el header usa `fetch()` a `api/buscar_productos.php?q=...`; `buscar.php` sigue funcionando sin JavaScript.
-
-## Cumplimiento de los TPs
-
-| TP | Implementación |
-| --- | --- |
-| 6 — Esquema relacional | `schema.sql`, `consultas.sql`, `NORMALIZACION.md` |
-| 7 — PDO + CRUD seguro | `config/conexion.php`, `admin*.php`, `app/Models/ProductModel.php`, `htmlspecialchars()` en vistas |
-| 8 — Sesiones y autenticación | `login.php`, `registro.php`, `logout.php`, `includes/auth_guard.php`, `admin_panel.php` |
-| 9 — AJAX & JSON | `api/buscar_productos.php` + `assets/js/app.js` (Fetch, async/await, try/catch, DOM dinámico) |
-| 10 — MVC y framework | Parte A: `app/Models|Controllers|Views`. Parte B: `framework-module/` (CodeIgniter 4) |
-
-## Comandos útiles
-
-```bash
-# Validar JS (si tenés Node)
-node --check assets/js/app.js
-
-# Servir CodeIgniter del TP10-B (requiere Composer)
-cd framework-module   # copiar archivos en un proyecto codeigniter4/appstarter
-php spark serve
-```
+Para más detalle sobre el esquema y la carga de datos, ver `BASE_DE_DATOS.md`.
