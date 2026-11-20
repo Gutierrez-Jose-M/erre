@@ -10,9 +10,15 @@ page_meta(
     'Formulario de alta de productos del catálogo ERRE.'
 );
 
-$marcas = ProductModel::marcas();
-$categorias = ProductModel::categorias();
 $error = '';
+try {
+    $marcas = ProductModel::marcas();
+    $categorias = ProductModel::categorias();
+} catch (PDOException $e) {
+    $marcas = array();
+    $categorias = array();
+    $error = 'Error al cargar marcas o categorías: ' . $e->getMessage();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = array(
@@ -30,8 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($data['slug'] === '' || $data['name'] === '' || $data['marca_id'] < 1
-        || $data['categoria_id'] < 1 || $data['price'] === '' || $data['image'] === '') {
-        $error = 'Completá slug, nombre, marca, categoría, precio e imagen.';
+        || $data['categoria_id'] < 1 || $data['type'] === '' || $data['unit'] === ''
+        || $data['price'] === '' || $data['image'] === '') {
+        $error = 'Completá slug, nombre, marca, categoría, tipo, unidad, precio e imagen.';
     } else {
         try {
             if (ProductModel::create($data)) {
@@ -71,7 +78,7 @@ render_page_header('Administración', 'Nuevo producto', 'Alta con consulta prepa
                 <select id="a-marca" name="marca_id" required>
                     <option value="">Seleccioná…</option>
                     <?php foreach ($marcas as $marca): ?>
-                        <option value="<?php echo e($marca['id']); ?>"><?php echo e($marca['nombre']); ?></option>
+                        <option value="<?php echo e($marca['id']); ?>" <?php echo (string) $marca['id'] === post_string('marca_id') ? 'selected' : ''; ?>><?php echo e($marca['nombre']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -80,7 +87,7 @@ render_page_header('Administración', 'Nuevo producto', 'Alta con consulta prepa
                 <select id="a-categoria" name="categoria_id" required>
                     <option value="">Seleccioná…</option>
                     <?php foreach ($categorias as $categoria): ?>
-                        <option value="<?php echo e($categoria['id']); ?>"><?php echo e($categoria['nombre']); ?></option>
+                        <option value="<?php echo e($categoria['id']); ?>" <?php echo (string) $categoria['id'] === post_string('categoria_id') ? 'selected' : ''; ?>><?php echo e($categoria['nombre']); ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -111,7 +118,7 @@ render_page_header('Administración', 'Nuevo producto', 'Alta con consulta prepa
         </div>
 
         <label class="check-row">
-            <input type="checkbox" name="destacado" value="1">
+            <input type="checkbox" name="destacado" value="1" <?php echo post_string('destacado') === '1' ? 'checked' : ''; ?>>
             <span>Producto destacado</span>
         </label>
 

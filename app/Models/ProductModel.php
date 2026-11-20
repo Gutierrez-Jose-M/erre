@@ -139,9 +139,12 @@ class ProductModel
         if (!$pdo) {
             return array();
         }
-        $allowed = array('marcas' => 'nombre', 'categorias' => 'nombre');
-        $columna = $allowed[$tabla];
-        $stmt = $pdo->prepare('SELECT id, slug, ' . $columna . ' AS nombre FROM ' . $tabla . ' ORDER BY nombre ASC');
+        $allowed = array('marcas', 'categorias');
+        if (!in_array($tabla, $allowed, true)) {
+            return array();
+        }
+        $select = ($tabla === 'categorias') ? 'id, slug, nombre' : 'id, nombre';
+        $stmt = $pdo->prepare('SELECT ' . $select . ' FROM ' . $tabla . ' ORDER BY nombre ASC');
         $stmt->execute();
         return $stmt->fetchAll();
     }

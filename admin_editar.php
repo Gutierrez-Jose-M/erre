@@ -17,9 +17,15 @@ if (!$product) {
     redirect('admin.php');
 }
 
-$marcas = ProductModel::marcas();
-$categorias = ProductModel::categorias();
 $error = '';
+try {
+    $marcas = ProductModel::marcas();
+    $categorias = ProductModel::categorias();
+} catch (PDOException $e) {
+    $marcas = array();
+    $categorias = array();
+    $error = 'Error al cargar marcas o categorías: ' . $e->getMessage();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = array(
@@ -37,8 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($data['slug'] === '' || $data['name'] === '' || $data['marca_id'] < 1
-        || $data['categoria_id'] < 1 || $data['price'] === '' || $data['image'] === '') {
-        $error = 'Completá slug, nombre, marca, categoría, precio e imagen.';
+        || $data['categoria_id'] < 1 || $data['type'] === '' || $data['unit'] === ''
+        || $data['price'] === '' || $data['image'] === '') {
+        $error = 'Completá slug, nombre, marca, categoría, tipo, unidad, precio e imagen.';
     } else {
         try {
             if (ProductModel::update($id, $data)) {
