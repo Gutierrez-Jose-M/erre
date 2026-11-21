@@ -69,7 +69,6 @@ require __DIR__ . '/includes/header.php';
             <button type="submit" class="btn btn-primary btn-lg btn-block">Ingresar</button>
         </form>
         <p class="auth-footer">¿No tenés cuenta? <a class="link" href="registro.php">Registrate</a></p>
-        <p class="muted small">Prueba: <strong>admin@erre.com.ar / admin123</strong> o <strong>cliente@erre.com.ar / cliente123</strong>.</p>
     </div>
 </div>
 

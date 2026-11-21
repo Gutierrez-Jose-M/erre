@@ -21,11 +21,12 @@ try {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $marca_nombre = post_string('marca_nombre');
     $data = array(
         'slug' => post_string('slug'),
         'name' => post_string('nombre'),
         'description' => post_string('descripcion'),
-        'marca_id' => (int) post_string('marca_id'),
+        'marca_id' => 0,
         'categoria_id' => (int) post_string('categoria_id'),
         'type' => post_string('tipo'),
         'price' => post_string('precio'),
@@ -35,17 +36,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'featured' => post_string('destacado') === '1',
     );
 
-    if ($data['slug'] === '' || $data['name'] === '' || $data['marca_id'] < 1
+    if ($data['slug'] === '' || $data['name'] === '' || $marca_nombre === ''
         || $data['categoria_id'] < 1 || $data['type'] === '' || $data['unit'] === ''
         || $data['price'] === '' || $data['image'] === '') {
         $error = 'Completá slug, nombre, marca, categoría, tipo, unidad, precio e imagen.';
     } else {
         try {
-            if (ProductModel::create($data)) {
-                flash('Producto creado', $data['name']);
-                redirect('admin.php');
+            $marca_id = ProductModel::ensureMarca($marca_nombre);
+            if (!$marca_id) {
+                $error = 'No se pudo guardar la marca.';
+            } else {
+                $data['marca_id'] = $marca_id;
+                if (ProductModel::create($data)) {
+                    flash('Producto creado', $data['name']);
+                    redirect('admin.php');
+                }
+                $error = 'No se pudo guardar el producto.';
             }
-            $error = 'No se pudo guardar el producto.';
         } catch (PDOException $e) {
             $error = 'Error de base de datos: ' . $e->getMessage();
         }
@@ -75,12 +82,12 @@ render_page_header('Administración', 'Nuevo producto', 'Alta con consulta prepa
             </div>
             <div class="field">
                 <label for="a-marca">Marca</label>
-                <select id="a-marca" name="marca_id" required>
-                    <option value="">Seleccioná…</option>
+                <input id="a-marca" name="marca_nombre" list="marcas-list" required placeholder="Escribí o elegí una marca" value="<?php echo e(post_string('marca_nombre')); ?>">
+                <datalist id="marcas-list">
                     <?php foreach ($marcas as $marca): ?>
-                        <option value="<?php echo e($marca['id']); ?>" <?php echo (string) $marca['id'] === post_string('marca_id') ? 'selected' : ''; ?>><?php echo e($marca['nombre']); ?></option>
+                        <option value="<?php echo e($marca['nombre']); ?>"></option>
                     <?php endforeach; ?>
-                </select>
+                </datalist>
             </div>
             <div class="field">
                 <label for="a-categoria">Categoría</label>

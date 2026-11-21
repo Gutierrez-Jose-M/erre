@@ -121,7 +121,7 @@ class ProductModel
         return $stmt->fetchAll();
     }
 
-    /** Catálogo de marcas para los <select> del admin. */
+    /** Catálogo de marcas para sugerencias del admin. */
     public static function marcas()
     {
         return self::lookup('marcas');
@@ -147,6 +147,30 @@ class ProductModel
         $stmt = $pdo->prepare('SELECT ' . $select . ' FROM ' . $tabla . ' ORDER BY nombre ASC');
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    /** Busca una marca por nombre o la crea si no existe, y devuelve su id. */
+    public static function ensureMarca($nombre)
+    {
+        $pdo = db();
+        if (!$pdo) {
+            return null;
+        }
+        $nombre = trim((string) $nombre);
+        if ($nombre === '') {
+            return null;
+        }
+
+        $stmt = $pdo->prepare('SELECT id FROM marcas WHERE nombre = :nombre LIMIT 1');
+        $stmt->execute(array(':nombre' => $nombre));
+        $row = $stmt->fetch();
+        if ($row) {
+            return (int) $row['id'];
+        }
+
+        $stmt = $pdo->prepare('INSERT INTO marcas (nombre) VALUES (:nombre)');
+        $stmt->execute(array(':nombre' => $nombre));
+        return (int) $pdo->lastInsertId();
     }
 
     /** CREATE (INSERT preparado). */
