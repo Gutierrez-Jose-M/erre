@@ -91,58 +91,58 @@ Capturas incluidas en la carpeta `img/` con una breve descripción de cada una.
 
 Estructura de la base de datos y sus tablas en MySQL/phpMyAdmin.
 
-<img src="img/base%20de%20datos.png" alt="Base de datos" width="900">
+![Base de datos](img/base%20de%20datos.png)
 
 ### Configuración de variables de entorno
 
 Configuración de los datos de conexión a la base de datos para el entorno local.
 
-<img src="img/Configuraci%C3%B3n%20de%20variables%20de%20entorno.png" alt="Configuración de variables de entorno" width="900">
+![Configuración de variables de entorno](img/Configuraci%C3%B3n%20de%20variables%20de%20entorno.png)
 
 ### Errores de validación (campos vacíos)
 
 Mensajes de validación mostrados al enviar un formulario con campos obligatorios sin completar.
 
-<img src="img/Errores%20de%20validaci%C3%B3n%20%28campos%20vac%C3%ADos%29.png" alt="Errores de validación (campos vacíos)" width="900">
+![Errores de validación (campos vacíos)](img/Errores%20de%20validaci%C3%B3n%20%28campos%20vac%C3%ADos%29.png)
 
 ### Estructura modular (SSI)
 
 Organización del proyecto en componentes y archivos reutilizables.
 
-<img src="img/Estructura%20modular%20%28SSI%29.png" alt="Estructura modular (SSI)" width="900">
+![Estructura modular (SSI)](img/Estructura%20modular%20%28SSI%29.png)
 
 ### Estructura modular (SSI) 2
 
 Otra vista de la estructura modular y la separación de archivos del proyecto.
 
-<img src="img/Estructura%20modular%20%28SSI%292.png" alt="Estructura modular (SSI) 2" width="900">
+![Estructura modular (SSI) 2](img/Estructura%20modular%20%28SSI%292.png)
 
 ### Navegación dinámica (título + clase active)
 
 Navegación que actualiza el título y resalta la sección activa según la página.
 
-<img src="img/Navegaci%C3%B3n%20din%C3%A1mica%20%28t%C3%ADtulo%20%2B%20clase%20active%29.png" alt="Navegación dinámica (título + clase active)" width="900">
+![Navegación dinámica (título + clase active)](img/Navegaci%C3%B3n%20din%C3%A1mica%20%28t%C3%ADtulo%20%2B%20clase%20active%29.png)
 
 ### Pedido recibido
 
 Confirmación de un pedido registrado y procesado correctamente.
 
-<img src="img/pedido%20recibido.png" alt="Pedido recibido" width="900">
+![Pedido recibido](img/pedido%20recibido.png)
 
 ### Persistencia de datos (email inválido y mensaje corto)
 
 El formulario conserva los datos ingresados cuando se producen errores de validación.
 
-<img src="img/Persistencia%20de%20datos%20%28email%20inv%C3%A1lido%20y%20mensaje%20corto%29.png" alt="Persistencia de datos (email inválido y mensaje corto)" width="900">
+![Persistencia de datos (email inválido y mensaje corto)](img/Persistencia%20de%20datos%20%28email%20inv%C3%A1lido%20y%20mensaje%20corto%29.png)
 
 ### Protección contra XSS (el código se muestra como texto y no se ejecuta)
 
 La entrada con código se muestra como texto (escapada/sanitizada) y no se ejecuta en el navegador.
 
-<img src="img/Protecci%C3%B3n%20contra%20XSS%20el%20c%C3%B3digo%20scriptalert%281%29script%20se%20muestra%20como%20texto%20y%20no%20se%20ejecuta..png" alt="Protección contra XSS (el código se muestra como texto y no se ejecuta)" width="900">
+![Protección contra XSS (el código se muestra como texto y no se ejecuta)](img/Protecci%C3%B3n%20contra%20XSS%20el%20c%C3%B3digo%20scriptalert%281%29script%20se%20muestra%20como%20texto%20y%20no%20se%20ejecuta..png)
 
 ### Servidor local ejecutándose
 
 Proyecto en ejecución en el servidor local (Apache/XAMPP).
 
-<img src="img/Servidor%20local%20ejecut%C3%A1ndose.png" alt="Servidor local ejecutándose" width="900">
+![Servidor local ejecutándose](img/Servidor%20local%20ejecut%C3%A1ndose.png)
