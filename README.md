@@ -107,6 +107,7 @@ erre/
 ├── NORMALIZACION.md                # Documentación del modelo relacional
 ├── README.md                       # Documentación principal
 └── robots.txt
+```
 
 ## ⚙️ Arquitectura e Implementación Técnica
 
